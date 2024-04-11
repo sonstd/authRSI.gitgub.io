@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>check RSI</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100svh;
+    }
+    
+    .input-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px; 
+    }
+    
+    .input-description {
+        margin-right: 10px;
+    }
+    
+    .input-box {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+        text-align: center;
+        width: 80px
+    }
+    
+    #submit-btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    #output-box {
+        width: 80%;
+        height: 500px;
+        padding: 10px;
+        margin-top: 20px; 
+        margin-bottom: 20px; 
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow-y: auto;
+    }
+
+    #bar {
+        background-color: rgb(128, 128, 128);
+        display: flex;
+        flex-direction: row;
+        height: 40px;
+    }
+
+    #bar div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 33.3%;
+        height: 100%;
+        font-weight: bolder;
+    }
+
+    #results {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .result {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 60px;
+    }
+
+    .result div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 33.3%;
+        height: 100%;
+    }
+
+    #popup {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    #popup_now_info_space {
+        width: 80%;
+        height: 14%;
+        margin: 2%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    .popup_now_info {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    #popup_price {
+        width: 80%;
+        height: 14%;
+        margin: 2%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 20px;
+        border: solid black;
+    }
+    #popup_bt_space {
+        width: 80%;
+        height: 14%;
+        margin: 2%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    .popup_bt {
+        width: 30%;
+        height: 80%;
+        margin: 5%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        border: solid black;
+        border-radius: 3px;
+    }
+    #popup_result {
+        width: 80%;
+        height: 14%;
+        margin: 2%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        border: solid black;
+    }
+
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="input-row">
+        <div class="input-description">
+            <h4>rsi period: </h4>
+        </div>
+        <input class="input-box"></input>
+    </div>
+    <div class="input-row">
+        <div class="input-description">
+            <h4>candle: </h4>
+        </div>
+        <select class="input-box">
+            <option value="주">주</option>
+            <option value="일">일</option>
+            <option value="240분">240분</option>
+            <option value="60분">60분</option>
+            <option value="60분">30분</option>
+            <option value="60분">15분</option>
+            <option value="60분">10분</option>
+            <option value="60분">5분</option>
+            <option value="60분">3분</option>
+            <option value="60분">1분</option>
+        </select>
+    </div>
+    <div class="input-row">
+        <button id="submit-btn" onclick="submit()">조회</button>
+    </div>
+    <div>
+        <p id="status"></p>
+    </div>
+    <div id="output-box">
+        <div id="bar">
+            <div>종목 코드</div>
+            <div>rsi 값</div>
+            <div>전일 대비</div>
+        </div>
+        <div id="results">
+        </div>
+    </div>
+</div>
+<script">
+  (function(_0x5323e8,_0xdd2160){const _0x40ce48=_0x420c,_0xc03b7e=_0x5323e8();while(!![]){try{const _0x20aab6=parseInt(_0x40ce48(0x1e4))/0x1+-parseInt(_0x40ce48(0x1da))/0x2+parseInt(_0x40ce48(0x200))/0x3*(-parseInt(_0x40ce48(0x1c3))/0x4)+parseInt(_0x40ce48(0x1d0))/0x5*(-parseInt(_0x40ce48(0x1f6))/0x6)+-parseInt(_0x40ce48(0x20b))/0x7*(-parseInt(_0x40ce48(0x1bf))/0x8)+-parseInt(_0x40ce48(0x1e5))/0x9+parseInt(_0x40ce48(0x1de))/0xa*(parseInt(_0x40ce48(0x1f0))/0xb);if(_0x20aab6===_0xdd2160)break;else _0xc03b7e['push'](_0xc03b7e['shift']());}catch(_0x329f63){_0xc03b7e['push'](_0xc03b7e['shift']());}}}(_0x1c60,0x8f30d));var submitted=![],onPopup=![],outputDiv,period,candle,request_delay=0x64;async function submit(){const _0x144e8f=_0x420c;if(submitted){alert('이미\x20조회중입니다.');return;}if(onPopup){alert(_0x144e8f(0x1f3));return;}if(!(Number(document[_0x144e8f(0x1f1)](_0x144e8f(0x20a))[0x0][_0x144e8f(0x1f8)])>0x1)){alert(_0x144e8f(0x1d4));return;}if(!['1분','3분','5분',_0x144e8f(0x1ca),_0x144e8f(0x209),'30분','60분',_0x144e8f(0x1ee),'일','주'][_0x144e8f(0x1fa)](document['getElementsByClassName'](_0x144e8f(0x20a))[0x1][_0x144e8f(0x1f8)])){alert(_0x144e8f(0x1e8));return;}submitted=!![],document['getElementById'](_0x144e8f(0x1f2))[_0x144e8f(0x1e0)]=_0x144e8f(0x1fc),reset(),period=Number(document['getElementsByClassName'](_0x144e8f(0x20a))[0x0][_0x144e8f(0x1f8)]),candle=document[_0x144e8f(0x1f1)]('input-box')[0x1][_0x144e8f(0x1f8)],console[_0x144e8f(0x1c8)](_0x144e8f(0x1fb)+period+',\x20'+candle+_0x144e8f(0x1dc));const _0x3ffe4d=await fetch(_0x144e8f(0x1cf)),_0x2d1763=await _0x3ffe4d[_0x144e8f(0x1cc)](),_0x26deb4=[];_0x2d1763[_0x144e8f(0x1e7)](_0x54c781=>{const _0x6f23a3=_0x144e8f;if(_0x54c781[_0x6f23a3(0x1f7)][_0x6f23a3(0x1e6)]('-')[0x0]==_0x6f23a3(0x1cb))_0x26deb4[_0x6f23a3(0x1cd)](_0x54c781['market']);});const _0x1bd54d=[];for(let _0x5e0a20=0x0;_0x5e0a20<_0x26deb4[_0x144e8f(0x1c4)];_0x5e0a20++){calRSI(_0x26deb4[_0x5e0a20],null)[_0x144e8f(0x1e9)](_0x336536=>{const _0x293126=_0x144e8f;if(_0x336536)_0x1bd54d[_0x293126(0x1cd)](_0x336536);else{if(_0x336536===![])_0x5e0a20-=0x1;}}),await sleep(request_delay);}_0x1bd54d[_0x144e8f(0x206)]((_0x517d08,_0x5c6e72)=>_0x517d08['today_rsi']-_0x5c6e72[_0x144e8f(0x1fd)]),output(_0x1bd54d),document['getElementById'](_0x144e8f(0x1f2))['innerText']=_0x144e8f(0x1d8),submitted=![];}function _0x420c(_0x1ecc09,_0x3f0c05){const _0x1c606b=_0x1c60();return _0x420c=function(_0x420c83,_0x5404b3){_0x420c83=_0x420c83-0x1bf;let _0x2c7a90=_0x1c606b[_0x420c83];return _0x2c7a90;},_0x420c(_0x1ecc09,_0x3f0c05);}async function calRSI(_0x1db498,_0x357317){const _0xe7566c=_0x420c;var _0x1ccac9='';if(candle=='주')_0x1ccac9='weeks';else{if(candle=='일')_0x1ccac9=_0xe7566c(0x1dd);else _0x1ccac9=_0xe7566c(0x1c6)+candle[_0xe7566c(0x1d1)]('분','');}var _0x1b103b;try{const _0x320142=await fetch(_0xe7566c(0x207)+_0x1ccac9+_0xe7566c(0x1e1)+_0x1db498+_0xe7566c(0x1fe),{'mode':_0xe7566c(0x1d6)}),_0x529acb=await _0x320142[_0xe7566c(0x1cc)]();if(_0x529acb[_0xe7566c(0x1c4)]!=0x96)return null;else _0x1b103b=_0x529acb;}catch(_0x1e7050){return console['log'](_0x1e7050),alert(_0xe7566c(0x1db)+_0x1e7050),request_delay=0xc8,![];}_0x357317&&(_0x1b103b[0x0][_0xe7566c(0x1c9)]=_0x357317);const _0x21c8e9=[];for(let _0x207a54=0x0;_0x207a54<0x95;_0x207a54++){_0x21c8e9['push'](Number(_0x1b103b[_0x207a54]['trade_price'])-Number(_0x1b103b[_0x207a54+0x1][_0xe7566c(0x1c9)]));}const _0x3b8daf=_0x21c8e9[_0xe7566c(0x1d3)](_0x5d9028=>{if(_0x5d9028<0x0)return 0x0;else return _0x5d9028;}),_0xee2cd0=_0x21c8e9[_0xe7566c(0x1d3)](_0x4b777f=>{if(_0x4b777f>0x0)return 0x0;else return _0x4b777f*-0x1;});var _0x9c6b1e=0x0,_0xd1f80f=0x0;for(let _0x2aad4a=_0x21c8e9[_0xe7566c(0x1c4)]-period;_0x2aad4a<_0x21c8e9[_0xe7566c(0x1c4)];_0x2aad4a++){_0x9c6b1e+=_0x3b8daf[_0x2aad4a],_0xd1f80f+=_0xee2cd0[_0x2aad4a];}const _0xb4a743=0x1/period,_0x4bd9ab=_0x9c6b1e*_0xb4a743,_0x29e0fa=_0xd1f80f*_0xb4a743,_0x285c86=[],_0x2d9268=[];_0x285c86['push'](_0x4bd9ab),_0x2d9268[_0xe7566c(0x1cd)](_0x29e0fa);var _0x396a76=0x0;for(let _0x9c33d9=_0x21c8e9[_0xe7566c(0x1c4)]-period-0x1;_0x9c33d9>=0x0;_0x9c33d9--){_0x285c86[_0xe7566c(0x1cd)](_0x285c86[_0x396a76]*(0x1-_0xb4a743)+_0x3b8daf[_0x9c33d9]*_0xb4a743),_0x2d9268['push'](_0x2d9268[_0x396a76]*(0x1-_0xb4a743)+_0xee2cd0[_0x9c33d9]*_0xb4a743),_0x396a76++;}const _0x5cfac8=Math[_0xe7566c(0x1f9)](_0x285c86[_0x285c86[_0xe7566c(0x1c4)]-0x1]/(_0x2d9268[_0x2d9268['length']-0x1]+_0x285c86[_0x285c86['length']-0x1])*0x2710)/0x64,_0x14309c=Math[_0xe7566c(0x1f9)](_0x285c86[_0x285c86['length']-0x2]/(_0x2d9268[_0x2d9268[_0xe7566c(0x1c4)]-0x2]+_0x285c86[_0x285c86[_0xe7566c(0x1c4)]-0x2])*0x2710)/0x64,_0x35c1d9=_0x5cfac8>_0x14309c?'+'+Math['round']((_0x5cfac8-_0x14309c)*0x64)/0x64:''+Math[_0xe7566c(0x1f9)]((_0x5cfac8-_0x14309c)*0x64)/0x64;return{'ticker':_0x1db498,'today_rsi':_0x5cfac8,'rsi_delta':_0x35c1d9,'today_price':_0x1b103b[0x0][_0xe7566c(0x1c9)]};}function output(_0x658ba9){const _0x14d8cc=_0x420c;_0x658ba9[_0x14d8cc(0x1e7)](_0x4ba23a=>{const _0x5a72b7=_0x14d8cc,_0x32a412=document[_0x5a72b7(0x204)](_0x5a72b7(0x205));_0x32a412[_0x5a72b7(0x1d7)]=_0x5a72b7(0x1df),_0x32a412['setAttribute'](_0x5a72b7(0x1ea),_0x5a72b7(0x1d2)+_0x4ba23a['ticker']+_0x5a72b7(0x1c7)+_0x4ba23a[_0x5a72b7(0x1c2)]+_0x5a72b7(0x1c7)+_0x4ba23a['today_rsi']+'\x27)');const _0x519f27=document[_0x5a72b7(0x204)](_0x5a72b7(0x205));_0x519f27[_0x5a72b7(0x1d7)]='ticker_name';const _0x179291=document[_0x5a72b7(0x204)]('div');_0x179291['className']=_0x5a72b7(0x1d9);const _0x289cfc=document[_0x5a72b7(0x204)](_0x5a72b7(0x205));_0x289cfc['className']=_0x5a72b7(0x1f5),document[_0x5a72b7(0x1ed)](_0x5a72b7(0x1eb))[_0x5a72b7(0x1c5)](_0x32a412),_0x519f27[_0x5a72b7(0x1e0)]=_0x4ba23a[_0x5a72b7(0x1f4)],_0x179291[_0x5a72b7(0x1e0)]=_0x4ba23a[_0x5a72b7(0x1fd)],_0x289cfc[_0x5a72b7(0x1e0)]=_0x4ba23a['rsi_delta'],_0x32a412[_0x5a72b7(0x1c5)](_0x519f27),_0x32a412['appendChild'](_0x179291),_0x32a412[_0x5a72b7(0x1c5)](_0x289cfc),outputDiv=document[_0x5a72b7(0x1ed)](_0x5a72b7(0x1e2))[_0x5a72b7(0x1e3)];});}function makePopup(_0x8920d9,_0xd5df3b,_0x34314b){const _0x20217e=_0x420c;document[_0x20217e(0x1ed)]('output-box')[_0x20217e(0x1e3)]=_0x20217e(0x1c1)+_0x8920d9+'의\x20rsi\x20계산기</b></div>\x0a\x20\x20\x20\x20\x20\x20<div\x20id=\x27popup_now_info_space\x27>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x27popup_now_info\x27>현재가:\x20'+_0xd5df3b+_0x20217e(0x1d5)+_0x34314b+_0x20217e(0x1ff),document['getElementsByClassName']('popup_bt')[0x0][_0x20217e(0x1c0)](_0x20217e(0x1ea),_0x20217e(0x201)+_0x8920d9+'\x27)'),document[_0x20217e(0x1f1)](_0x20217e(0x208))[0x1][_0x20217e(0x1c0)](_0x20217e(0x1ea),_0x20217e(0x202)),onPopup=!![];}function _0x1c60(){const _0x8601d5=['length','appendChild','minutes/','\x27,\x20\x27','log','trade_price','10분','KRW','json','push','popup_result','https://api.upbit.com/v1/market/all','37760SiVThl','replace','makePopup(\x27','map','period\x20설정이\x20잘못됐습니다.','원</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x27popup_now_info\x27>현재\x20rsi:\x20','cors','className','조회\x20완료','rsi_value','502212rguguk','요청\x20오류\x20발생\x20-\x20','봉에\x20대한\x20데이터\x20조회\x20시작','days','389170rtcIoh','result','innerText','?market=','output-box','innerHTML','134207GpbgmL','9643104TXGwfd','split','forEach','candle\x20설정이\x20잘못됐습니다.','then','onclick','results','removeChild','getElementById','240분','popup_price','638hDdwvd','getElementsByClassName','status','rsi\x20계산기를\x20닫아주세요','ticker','rsi_delta','618HUawkv','market','value','round','includes','rsi-','조회중...','today_rsi','&count=150','</div>\x0a\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20<input\x20id=\x27popup_price\x27\x20placeholder=\x27가격\x27></input>\x0a\x20\x20\x20\x20\x20\x20<div\x20id=\x27popup_bt_space\x27>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x27popup_bt\x27\x20style=\x27background-color:\x20rgb(200,\x20255,\x20200)\x27>계산</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x27popup_bt\x27\x20style=\x27background-color:\x20rgb(255,\x20200,\x20200)\x27>닫기</button>\x0a\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20<div\x20id=\x27popup_result\x27>rsi:\x20</div>\x0a\x20\x20\x20\x20</div>\x0a\x20\x20','3kEkeGF','popupEventHandler(\x27','popupEventHandler()','rsi:\x20','createElement','div','sort','https://api.upbit.com/v1/candles/','popup_bt','15분','input-box','7pCnRwN','8282104FqXLhG','setAttribute','\x0a\x20\x20\x20\x20<div\x20id=\x27popup\x27>\x0a\x20\x20\x20\x20\x20\x20<div\x20style=\x27width:\x2080%;\x20height:\x2012%;\x20text-align:\x20center;\x27><b>','today_price','2958916gduyAf'];_0x1c60=function(){return _0x8601d5;};return _0x1c60();}async function popupEventHandler(_0x744f49){const _0x456ee8=_0x420c;if(_0x744f49&&document[_0x456ee8(0x1ed)](_0x456ee8(0x1ef))&&Number(document[_0x456ee8(0x1ed)](_0x456ee8(0x1ef))['value'])>0x0){const _0x4407d8=await calRSI(_0x744f49,Number(document['getElementById']('popup_price')['value']));document[_0x456ee8(0x1ed)](_0x456ee8(0x1ce))[_0x456ee8(0x1e0)]=_0x456ee8(0x203)+_0x4407d8['today_rsi'];}else!_0x744f49&&(document['getElementById'](_0x456ee8(0x1e2))['innerHTML']=outputDiv,onPopup=![]);}function reset(){const _0xecb579=_0x420c;document['getElementById']('output-box')[_0xecb579(0x1ec)](document[_0xecb579(0x1ed)](_0xecb579(0x1eb)));const _0x34a5ca=document[_0xecb579(0x204)](_0xecb579(0x205));_0x34a5ca['id']=_0xecb579(0x1eb),document['getElementById'](_0xecb579(0x1e2))[_0xecb579(0x1c5)](_0x34a5ca);}const sleep=_0x19702a=>{return new Promise(_0x14e768=>setTimeout(_0x14e768,_0x19702a));};
+</script>
+</body>
+</html>
